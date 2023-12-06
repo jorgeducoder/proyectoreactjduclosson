@@ -1,0 +1,65 @@
+import React, { useState, useEffect } from 'react';
+import ItemList from '../ItemList/ItemList';
+import { useParams } from 'react-router-dom';
+import { ProgressBar } from  'react-loader-spinner';
+/* Se agrega el loading para controlar el renderizado condicional de la carga de items.
+   Al inicio del use effect se vuelve a poner en true porque cuando cambie la categoria
+   el componente se renderiza nuevamente*/
+const ItemListContainer = () => {
+
+    const [alimentos, setAlimentos] = useState([])
+    const [loading, setLoading] = useState(true)
+    const { categoriaId } = useParams()
+
+    useEffect(() => {
+        setLoading(true);
+        const fetchData = () => {
+            return fetch("/data/saborescaseros.json")
+                .then((response) => response.json())
+                .then((data) => {
+
+                    if (categoriaId) {
+                        const filterProducts = data.filter((p) => p.categoria == categoriaId);
+
+                        setAlimentos(filterProducts);
+
+                    } else {
+                        setAlimentos(data);
+                    }
+                })
+
+                // Metodo de JS que se ejecuta al finalizar igual que el catch y setea el loading en false mas alla de lo que pase
+                .catch((error) => console.log(error))
+                .finally(() => setLoading(false));
+        };
+        // retrasamos la ejecucion de la funcion fethData hasta que no trabajemos con base de datos para ver el loading
+        setTimeout(() => fetchData(), 2000)
+
+
+        /*Hay que devolver la categoria para que se renderice el componente cada vez que se llama*/
+    }, [categoriaId]);
+
+    return (
+        <>
+            {loading ? (
+
+            <ProgressBar
+                height="80"
+                width="80"
+                ariaLabel="progress-bar-loading"
+                wrapperStyle={{}}
+                wrapperClass="progress-bar-wrapper"
+                borderColor='#F4442E'
+                barColor='#51E5FF'
+            />
+
+            ) : (
+
+            <ItemList alimentos={alimentos} />
+           )}
+
+        </>
+    );
+};
+
+export default ItemListContainer;

@@ -1,0 +1,77 @@
+[
+    {
+        "id": 1,
+        "nombre": "Pizza",
+        "porciones": 8,
+        "recetadesc": "Como se mezclan los ingredientes",
+        "img": "/img/pizza.jpg",
+        "maxprod":20,
+        "precio":10,
+        "categoria":"Tortas"
+    },
+    {
+        "id": 2,
+        "nombre": "Pascualina",
+        "porciones": 8,
+        "recetadesc": "Como se mezclan los ingredientes",
+        "img": "/img/pascualina.jpg",
+        "maxprod":15,
+        "precio":15,
+        "categoria":"Tortas"
+    },
+    {
+        "id": 3,
+        "nombre": "Pasta Frola",
+        "porciones": 8,
+        "recetadesc": "Como se mezclan los ingredientes",
+        "img": "/img/pastafrola.jpg",
+        "maxprod":20,
+        "precio":12,
+        "categoria":"Tartas"
+    },
+    
+    {
+        "id": 4,
+        "nombre": "Pizza con muzza",
+        "porciones": 20,
+        "recetadesc": "Como se mezclan los ingredientes",
+        "img": "/img/escones.jpg",
+        "maxprod":20,
+        "precio":12,
+        "categoria":"Tortas"
+    },
+
+    {
+        "id": 5,
+        "nombre": "Tarta de frutillas",
+        "porciones": 8,
+        "recetadesc": "Como se mezclan los ingredientes",
+        "img": "/img/Postrefrutilla1.jpg",
+        "maxprod":20,
+        "precio":25,
+        "categoria":"Postres"
+    },
+
+    {
+        "id": 6,
+        "nombre": "Tortilla Española",
+        "porciones": 8,
+        "recetadesc": "Como se mezclan los ingredientes",
+        "img": "/img/tortilla.jpg",
+        "maxprod":20,
+        "precio":25,
+        "categoria":"Tortas"
+    },
+
+    {
+        "id": 7,
+        "nombre": "Peras al vino",
+        "porciones": 8,
+        "recetadesc": "Como se mezclan los ingredientes",
+        "img": "/img/postre1-2.jpg",
+        "maxprod":20,
+        "precio":25,
+        "categoria":"Postres"
+    }
+
+]
