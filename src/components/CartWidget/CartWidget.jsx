@@ -18,7 +18,9 @@ const CartWidget = () => {
                    <FaShoppingCart /> 
                  </Link>
             </div>
-            <p style={{marginRight: "20px", fontSize: "20px", fontWeight: "bolder"}}>{getTotalItems()}</p>
+            { getTotalItems()>0 ? <p style={{marginRight: "20px", fontSize: "20px", fontWeight: "bolder"}}>{getTotalItems()}</p>
+            : <p></p>}
+            
         </div>
     );
 };
