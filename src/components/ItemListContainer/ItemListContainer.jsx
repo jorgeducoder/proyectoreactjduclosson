@@ -2,18 +2,24 @@ import React, { useState, useEffect } from 'react';
 import ItemList from '../ItemList/ItemList';
 import { useParams } from 'react-router-dom';
 import { ProgressBar } from  'react-loader-spinner';
+import {collection,getDocs,getFirestore,query,where} from "firebase/firestore";
+
+
+
 /* Se agrega el loading para controlar el renderizado condicional de la carga de items.
    Al inicio del use effect se vuelve a poner en true porque cuando cambie la categoria
    el componente se renderiza nuevamente*/
-const ItemListContainer = () => {
+
+   const ItemListContainer = () => {
 
     const [alimentos, setAlimentos] = useState([])
     const [loading, setLoading] = useState(true)
     const { categoriaId } = useParams()
 
     useEffect(() => {
+        // Inicializamos el estado de carga de los productos
         setLoading(true);
-        const fetchData = () => {
+       /* const fetchData = () => {
             return fetch("/data/saborescaseros.json")
                 .then((response) => response.json())
                 .then((data) => {
@@ -37,6 +43,31 @@ const ItemListContainer = () => {
 
 
         /*Hay que devolver la categoria para que se renderice el componente cada vez que se llama*/
+        // SUSTITUYO POR ACCESO A FIRESTORE
+        // Creamos la instancia de la BD
+        const db = getFirestore()
+
+        // generamos el filtrado de los productos
+        const misalimentos = categoriaId
+        ? query(collection(db,"alimentos"),where("categoria","==",categoriaId))
+        : collection(db,"alimentos")
+
+        // GENERAMOS LOS DOCUMENTOS SOLICITADOS
+        getDocs(misalimentos)
+        .then((res)=>{
+            const nuevosAlimentos = res.docs.map((doc)=> {
+                const data = doc.data()
+                return {id: doc.id,...data}
+            })
+            setAlimentos(nuevosAlimentos)
+        })
+        .catch((error)=> console.log(error))
+        .finally(()=>{
+            //Cancelamos el loading y se muestran los productos
+            setLoading(false)
+        })
+
+
     }, [categoriaId]);
 
     return (

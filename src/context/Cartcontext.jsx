@@ -47,7 +47,7 @@ const isInCart = (itemId) => {
 
 // Funcion para saber el total de productos en el carrito y otra para calcular el total en el carrito
 
-const getTotalItems = (item) => {
+const getTotalItems = () => {
     let total = 0;
     cart.forEach((e) => total += e.cantidad) 
 
@@ -55,11 +55,11 @@ const getTotalItems = (item) => {
 
 }
 
-const getTotalenpesosItems = (item) => {
+const getTotalenpesosItems = () => {
     let totalpesos = 0;
     //Calculo en esta funcion el total en pesos del arrito para no calcular cada ez ue agrega o saca
     cart.forEach((e) => totalpesos += (e.cantidad*e.alimentodet.precio))
-    console.log(item)
+    
     return totalpesos
 
 }

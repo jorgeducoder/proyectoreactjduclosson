@@ -3,6 +3,8 @@ import React, {useState,useEffect, useContext} from 'react';
 import ItemDetail from '../ItemDetail/ItemDetail';
 import { useParams } from 'react-router-dom';
 import { Cartcontext } from '../../context/Cartcontext';
+// Paso 1 importamos metodos de firestore a usar
+import {getDoc,getFirestore,doc} from "firebase/firestore";
 
 const ItemDetailContainer = () => {
 
@@ -12,7 +14,29 @@ const ItemDetailContainer = () => {
     const {alimentoId} = useParams()
 
     useEffect(()=>{
-        const fetchData = () => {
+       // Paso 2 instanciamos la base
+
+       const db = getFirestore()
+
+       // paso 3 recibimos el documento por su ID
+       
+       const detalleDoc = doc(db,"alimentos", alimentoId)
+       
+       // paso 4 llamar al documento y renderizarlo
+
+       getDoc(detalleDoc)
+       .then((res)=>{
+       
+            const data = res.data();
+            const nuevoAlimento = {id: res.id,...data}
+            setAlimento(nuevoAlimento)
+        })
+            
+        .catch((error)=> console.log(error))
+
+
+        // codigo cuando usamos JSON
+        /* const fetchData = () => {
             return fetch("/data/saborescaseros.json")
             .then((response)=>response.json())
             .then((data)=> {
@@ -22,7 +46,7 @@ const ItemDetailContainer = () => {
             .catch((error)=>console.log(error))
         }
 
-        fetchData()
+        fetchData()*/
     },[alimentoId])
 
     return (
