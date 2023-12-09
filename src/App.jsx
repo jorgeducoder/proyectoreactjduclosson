@@ -8,6 +8,7 @@ import Mensaje from './components/Mensaje/Mensaje'
 /* El unico lugar donde se importa el contexto es donde se engloba la aplicacion.CartProvider. Y el contexto donde se utilice*/
 import { CartProvider } from './context/Cartcontext'
 import Cart from './components/Cart/Cart'
+import Outorder from './components/Outorder/Outorder'
 import Checkout from './components/Checkout/Checkout'
 
 
@@ -25,7 +26,9 @@ function App() {
             <Route path='/ItemListContainer/:categoriaId' element={<ItemListContainer />} />
             <Route path='/item/:alimentoId' element={<ItemDetailContainer />} />
             <Route path='/Cart' element={<Cart/>}/>
-            <Route path='/Ckeckout' element={<Checkout/>}/>
+            <Route path='/Outorder' element={<Outorder/>} />
+            <Route path='/Checkout' element={<Checkout/>} />
+
             <Route path='/Mensaje' element={<Mensaje />} />
           </Routes>
         </CartProvider>

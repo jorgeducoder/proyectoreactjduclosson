@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { collection, addDoc, updateDoc, doc, getDoc, getFirestore } from 'firebase/firestore';
+import { useState, useEffect, useContext } from 'react';
+import { collection, addDoc, updateDoc, doc, getDoc } from 'firebase/firestore';
 import { Cartcontext } from '../../context/Cartcontext';
-import { MdRemoveShoppingCart } from "react-icons/md";
 
 
 
-const Checkout = () => {
+const Outorder = () => {
+    alert("entro a Outorder")
     //Campos del formulario
     const [nombre, setNombre] = useState("");
     const [apellido, setApellido] = useState("");
@@ -13,20 +13,16 @@ const Checkout = () => {
     const [email, setEmail] = useState("");
     const [emailConfirmacion, setEmailConfirmacion] = useState("");
     const [error, seterror] = useState("");
-
     const [ordenId, setOrdenId] = useState("");
 
     // Datos necesarios del context
-   
-    const { cart, totalEnpesos, cantidadTotal, clearCart } = useContext(Cartcontext)
-   
-    console.log(cart)
-   
+    const { cart, total, cantidadTotal, clearcart } = useContext(Cartcontext)
+    alert("defini usecontext")
     // SUBMIT
-    const manejadorFormulario = (event) => {
+    const manejadorformulario = (event) => {
         // Evitamos que se ejecute el evento submit por defecto.
         event.preventDefault()
-
+        alert("entro a manejador de formularios")
         //Algunos manejos de errores
         if (!nombre || !apellido || !telefono || !email || !emailConfirmacion) {
             seterror("Hay campos requeridos sin completar")
@@ -36,91 +32,74 @@ const Checkout = () => {
             seterror("Los email no coinciden")
             return;
         }
-      
         
-        // Creamos la instancia de la DB
-        const db = getFirestore()
-             
-    
         // Generamos el objeto de la orden de compra
         const orden = {
-            items: cart.map((alimentodet) => ({
-                
-                id: alimentodet.alimentodet.id,
-                nombre: alimentodet.alimentodet.nombre,
-                cantidad: alimentodet.cantidad
-                
+            items: cart.map((alimentos) => ({
+                id: alimentos.alimentodet.id,
+                nombre: alimentos.alimentodet.nombre,
+                cantidad: alimentos.cantidad
             })),
-            total: totalEnpesos,
+            total: total,
             fecha: new Date(),
             nombre,
             apellido,
             telefono,
             email
         }
-    
-        
+
         // Generamos la logica para la orden y reduccion del stock.
 
         Promise.all(
             orden.items.map(async (alimentosOrden) => {
-                const alimentoRef = doc(db, "alimentos", alimentosOrden.id);
-                const alimentoDoc = await getDoc(alimentoRef);
-                const maxprodActual = alimentoDoc.data().maxprod;
+                const alimentoRef = doc(db, "alimentos", alimentosOrden)
+                const alimentoDoc = await getDoc(alimentoRef)
+                const maxprodActual = alimentoDoc.data().maxprod
 
                 // Por diseño de esta App hay produccion maxima, no stock.
                 // Se considera que en cada orden, cada alimento tiene un maximo a producir.
-                
-                {console.log(maxprodActual)}
-                
                 await updateDoc(alimentoRef, {
-                    maxprod: maxprodActual - alimentosOrden.cantidad,
-                });
+                    maxprod: maxprodActual - alimentosOrden.cantidad
+                })
 
             })
-          )
+        )
             .then(() => {
                 addDoc(collection(db, "ordenes"), orden)
                     .then((docRef) => {
                         setOrdenId(docRef.id);
-                        {clearCart};
+                        clearcart()
                     })
                     .catch((error) => {
-                        console.log("Error al crear la orden", error);
-                        seterror("Se produjo un error al guardar la orden");
-                    });
-                })
-            .catch((error) => {
-                console.log("No se pudo actualizar el stock", error);
-                seterror("Se produjo un error al actualizar maximo a producir, intentelo mas tarde");
-                });
-    }    
-            
-        
-    return (
-            //Armado del formulario
-            <div>
+                        seterror("Se produjo un error al guardar la orden")
+                    })
+                    .catch((error) => {
+                        seterror("Se produjo un error al actualizar maximo a producir, intentelo mas tarde")
+                    })
+            })
 
+        return (
+            //Armado del formulario
+            
+            <div>
+                
                 <h2>Ingresa tus datos</h2>
 
                 {/* Mapeamos los productos*/}
+
                 
-                    {cart.map((alimentodet) => (
-                        <div key={alimentodet.alimentodet.id}>
-                            
+                    cart.map((alimentos) => {
+                        <div key={alimentos.alimento.id}>
                             <p>
-                                {" "}
-                                {alimentodet.alimentodet.nombre} x {alimentodet.cantidad}{" "}
+                                {alimentos.alimento.nombre} x {alimentos.cantidad}
                             </p>
-                            <p>{alimentodet.alimentodet.precio}</p>
-                        <hr />
+                            <p>{alimentos.alimento.precio}</p>
                         </div>
-                   ))}
+                    })
                 
 
                 {/* Campos del Formulario*/}
-                
-                <form onSubmit={manejadorFormulario} className = "formulario">
+                <Form onSubmit={manejadorformulario}>
                     <div>
                         <label htmlFor=''>Nombre</label>
                         <input type="text" onChange={(e) => setNombre(e.target.value)} />
@@ -149,14 +128,13 @@ const Checkout = () => {
                             <p>
                                 Gracias por tu compra!! Tu número de ID es: {ordenId}
                             </p>
-                           
                         )
-                                              
                     }
-                    <button onClick={clearCart}><MdRemoveShoppingCart /></button>
-                </form>
+
+                </Form>
             </div>
         );
     };
+}
 
-    export default Checkout;
+export default Outorder;

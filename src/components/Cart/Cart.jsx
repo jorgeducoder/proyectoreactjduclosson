@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { FaTrashAlt } from "react-icons/fa";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import Button from 'react-bootstrap/Button';
-//import Checkout from '../Checkout/Checkout'
 
 const Cart = () => {
 
@@ -42,13 +41,15 @@ const Cart = () => {
 
          {cart.length > 0 ? (
             <div>
-              {/* <Link to = {'/Checkout'}> Terminar la compra </Link>*/}
-               <Button variant="success" as={Link} to={`/Checkout`}>Ver orden</Button>
+              <Link to = {"/Checkout"}> Compra link con Checkout</Link>
+               <Button variant="success" as={Link} to={"/Checkout"}>Ver Checkout con Button</Button>
+               <Link to = {"/Mensaje"}>Ver Mensaje</Link>
+               <Button variant="success" as={Link} to={"/Outorder"}>Ver Outorder</Button>
                <br/>
                <br/>
                <button onClick={clearCart}><MdRemoveShoppingCart /></button>
+            
             </div>
-
          ) : (
 
             <Link to={'/'}>Ir a inicio</Link>
