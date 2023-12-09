@@ -41,10 +41,9 @@ const Cart = () => {
 
          {cart.length > 0 ? (
             <div>
-              <Link to = {"/Checkout"}> Compra link con Checkout</Link>
-               <Button variant="success" as={Link} to={"/Checkout"}>Ver Checkout con Button</Button>
-               <Link to = {"/Mensaje"}>Ver Mensaje</Link>
-               <Button variant="success" as={Link} to={"/Outorder"}>Ver Outorder</Button>
+              {/*<Link to = {"/Checkout"}> Compra link con Checkout</Link>*/}
+               <Button variant="success" as={Link} to={"/Checkout"}>Ver Orden</Button>
+                           
                <br/>
                <br/>
                <button onClick={clearCart}><MdRemoveShoppingCart /></button>

@@ -18,7 +18,7 @@ const Checkout = () => {
 
     // Datos necesarios del context
    
-    const { cart, totalEnpesos, cantidadTotal, clearCart } = useContext(Cartcontext)
+    const { cart, getTotalenpesosItems, clearCart } = useContext(Cartcontext)
    
     console.log(cart)
    
@@ -51,7 +51,7 @@ const Checkout = () => {
                 cantidad: alimentodet.cantidad
                 
             })),
-            total: totalEnpesos,
+            total: getTotalenpesosItems(),
             fecha: new Date(),
             nombre,
             apellido,
@@ -101,7 +101,7 @@ const Checkout = () => {
             //Armado del formulario
             <div>
 
-                <h2>Ingresa tus datos</h2>
+               
 
                 {/* Mapeamos los productos*/}
                 
@@ -112,12 +112,14 @@ const Checkout = () => {
                                 {" "}
                                 {alimentodet.alimentodet.nombre} x {alimentodet.cantidad}{" "}
                             </p>
-                            <p>{alimentodet.alimentodet.precio}</p>
+                            <p>{alimentodet.alimentodet.precio}</p>{" "}
+                            
                         <hr />
                         </div>
                    ))}
-                
-
+                <br/>
+                 <h2>Ingresa tus datos</h2>
+                 <br/>
                 {/* Campos del Formulario*/}
                 
                 <form onSubmit={manejadorFormulario} className = "formulario">
@@ -126,20 +128,20 @@ const Checkout = () => {
                         <input type="text" onChange={(e) => setNombre(e.target.value)} />
                     </div>
                     <div>
-                        <label htmlFor=''>Apellido</label>
+                        <label htmlFor=''>Apellido  </label>
                         <input type="text" onChange={(e) => setApellido(e.target.value)} />
                     </div>
                     <div>
-                        <label htmlFor=''>Telefono</label>
+                        <label htmlFor=''>Telefono  </label>
                         <input type="number" onChange={(e) => setTelefono(e.target.value)} />
                     </div>
                     <div>
-                        <label htmlFor=''>Email</label>
+                        <label htmlFor=''>Email  </label>
                         <input type="email" onChange={(e) => setEmail(e.target.value)} />
                     </div>
                     <div>
-                        <label htmlFor=''>Confirmar Email</label>
-                        <input type="email" onChange={(e) => setEmailConfirmacion(e.target.value)} />
+                        <label htmlFor=''>Confirmar Email  </label>
+                        <input type="email" onChange={(e) => setEmailConfirmacion(e.target.value)} /><br/>
                     </div>
 
                     {error && <p style={{ color: "red" }}>{error}</p>}
@@ -149,9 +151,7 @@ const Checkout = () => {
                             <p>
                                 Gracias por tu compra!! Tu número de ID es: {ordenId}
                             </p>
-                           
                         )
-                                              
                     }
                     <button onClick={clearCart}><MdRemoveShoppingCart /></button>
                 </form>

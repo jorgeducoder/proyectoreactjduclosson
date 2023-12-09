@@ -9,6 +9,7 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+// Podria agregarse al .env y excluirlo en gitignore
 const firebaseConfig = {
   apiKey: "AIzaSyD19GIj6m3b-7qi8T8JsSfmJ_Vq8ohwIgw",
   authDomain: "apialimentos-b5047.firebaseapp.com",
